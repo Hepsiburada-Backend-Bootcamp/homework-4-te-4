@@ -3,6 +3,7 @@ using System.Data;
 using Ecommerce.Domain.Repositories;
 using Ecommerce.Infrastructure.Context;
 using Ecommerce.Infrastructure.DapperRepository;
+using Ecommerce.Infrastructure.EFRepository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,10 +17,10 @@ namespace Ecommerce.Infrastructure
             IConfiguration configuration)
         {
             
-           // services.AddDbContext<EcommerceDbContext>(options =>
-           //     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<EcommerceDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IProductRepository,DapperProductRepository>();
-            services.AddScoped<IUserRepository, DapperUserRepository>();
+            services.AddScoped<IUserRepository, EFUserRepository>();
 
             services.AddScoped<IDbConnection>(db=>new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
             return services;
