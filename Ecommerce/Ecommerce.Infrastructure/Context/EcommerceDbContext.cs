@@ -1,4 +1,5 @@
-﻿using Ecommerce.Domain.Models;
+﻿using System.Data;
+using Ecommerce.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.Context

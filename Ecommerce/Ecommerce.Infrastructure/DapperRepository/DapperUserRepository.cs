@@ -6,6 +6,7 @@ using Ecommerce.Domain.Repositories;
 
 namespace Ecommerce.Infrastructure.DapperRepository
 {
+    
     public class DapperUserRepository : IUserRepository
     {
         public Task<Guid> AddAsync(User user)
