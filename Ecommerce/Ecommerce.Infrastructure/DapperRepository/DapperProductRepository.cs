@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Ecommerce.Domain.Models;
@@ -15,38 +16,46 @@ namespace Ecommerce.Infrastructure.DapperRepository
 {
     public class DapperProductRepository : IProductRepository
     {
-        private readonly IDbConnection _context;
+        private readonly IDbConnection _dbConnection;
 
         public DapperProductRepository(IDbConnection dbContext)
         {
-            _context = dbContext;
+            _dbConnection = dbContext;
         }
         public async Task<Guid> AddAsync(Product product)
         {
-            string sql = "INSERT INTO Products (Name) VALUES(@Name)";
-            //id geri naıl döndüreceğiz?
-            
-            return await _context.ExecuteAsync(sql,product);
+            string addSql = "INSERT INTO Products (Name,Brand,Price) VALUES(@Name,@Brand,@Price)";
+            await _dbConnection.ExecuteAsync(addSql, product);
+            //db otomatik Guid oluşturabiliyor mu? Guid vazgelim mi?
+            string getSql = "SELECT Id FROM Products WHERE Name = @Name AND Brand = @Brand AND Price = @Price";
+            return  await _dbConnection.QuerySingleOrDefaultAsync<Guid>(getSql,product);
         }
 
-        public Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            string sql = "SELECT * FROM Products";
+            var result =await _dbConnection.QueryAsync<Product>(sql);
+            return result.ToList();
         }
 
-        public Task<Product> FindByIdAsync(Guid id)
+        public async Task<Product> FindByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            string sql = "SELECT * FROM Products WHERE Id = @Id";
+            var result =await _dbConnection.QuerySingleOrDefaultAsync<Product>(sql, new {Id = id});
+            return result;
         }
 
         public Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            string sql = "DELETE FROM Products WHERE Id = @Id";
+           return _dbConnection.ExecuteAsync(sql, new {Id = id});
+            
         }
 
         public Task UpdateAsync(Product product)
-        {
-            throw new NotImplementedException();
+        { 
+            string sql = "UPDATE Products SET Name = @Name , Brand = @Brand , Price = @Price WHERE Id = @Id ";
+            return _dbConnection.ExecuteAsync(sql, product);
         }
     }
 }
