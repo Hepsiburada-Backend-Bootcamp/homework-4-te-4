@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
-    class ProductService : IProductService
+     public class ProductService : IProductService
     {
+
         private readonly IProductRepository _repository;
         private readonly IMapper _mapper;
 
@@ -41,11 +42,11 @@ namespace Ecommerce.Application.Services
             return _mapper.Map<Product, ProductDto>(product);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts()
+        public async Task<List<ProductDto>> GetProducts()
         {
             List<Product> products = await _repository.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products);
+            return _mapper.Map<List<Product>, List<ProductDto>>(products);
         }
 
         public async Task UpdateProduct(Guid id, UpdateProductDto dto)

@@ -11,7 +11,7 @@ namespace Ecommerce.Application.Services
     public interface IProductService
     {
         Task<Guid> CreateProduct(CreateProductDto dto);
-        Task<IEnumerable<ProductDto>> GetProducts();
+        Task<List<ProductDto>> GetProducts();
         Task<ProductDto> GetProduct(Guid id);
         Task DeleteProduct(Guid id);
         Task UpdateProduct(Guid id, UpdateProductDto dto);
