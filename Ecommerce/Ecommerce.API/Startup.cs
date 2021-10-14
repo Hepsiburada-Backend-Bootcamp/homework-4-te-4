@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Application;
+using Ecommerce.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,8 @@ namespace Ecommerce.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationModule();
+            services.AddInfrastructureModule(Configuration);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
