@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Domain.Models
 {
@@ -8,7 +9,9 @@ namespace Ecommerce.Domain.Models
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public ICollection<OrderItem> Items { get; set; }
+        //[ForeignKey("UserId")]
+        //public User User { get; set; }
+        public virtual ICollection<OrderItem> Items { get; set; }
         public bool IsFinal { get; set; } = false;
         public virtual double TotalPrice
         {
