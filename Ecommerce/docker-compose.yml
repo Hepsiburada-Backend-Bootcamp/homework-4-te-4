@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: toor
-      POSTGRES_DB: product
+      POSTGRES_DB: ecommerce
       POSTGRES_PORT: 5432
       #POSTGRES_HOST: 127.0.0.1
 

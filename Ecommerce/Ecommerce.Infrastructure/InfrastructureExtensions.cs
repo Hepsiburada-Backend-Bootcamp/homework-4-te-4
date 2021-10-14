@@ -16,13 +16,14 @@ namespace Ecommerce.Infrastructure
         public static IServiceCollection AddInfrastructureModule(this IServiceCollection services,
             IConfiguration configuration)
         {
-            
+
             services.AddDbContext<EcommerceDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"),
+                        b => b.MigrationsAssembly("Ecommerce.API")));
             services.AddScoped<IProductRepository,DapperProductRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
 
-            services.AddScoped<IDbConnection>(db=>new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IDbConnection>(db=>new SqlConnection(configuration.GetConnectionString("PostgresConnection")));
             return services;
         }
     }
