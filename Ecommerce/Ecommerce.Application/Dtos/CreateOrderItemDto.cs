@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Application.Dtos
 {
-    class CreateOrderItemDto
+    public class CreateOrderItemDto
     {
         [Required]
         public Guid OrderId { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
-    interface IOrderService
+    public interface IOrderService
     {
         Task<Guid> CreateOrder(CreateOrderDto dto);
         Task<List<OrderDto>> GetOrders();

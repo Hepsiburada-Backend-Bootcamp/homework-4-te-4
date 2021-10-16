@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Dtos
 {
-    class CreateOrderDto
+    public class CreateOrderDto
     {
         [Required]
         public Guid UserId { get; set; }

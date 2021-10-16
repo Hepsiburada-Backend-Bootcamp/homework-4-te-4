@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
-    class OrderService : IOrderService
+    public class OrderService : IOrderService
     {
         private readonly IOrderRepository _repository;
         private readonly IProductRepository _productRepository;
