@@ -4,10 +4,10 @@ using Ecommerce.Domain.Repositories;
 using Ecommerce.Infrastructure.Context;
 using Ecommerce.Infrastructure.DapperRepository;
 using Ecommerce.Infrastructure.EFRepository;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace Ecommerce.Infrastructure
 {
@@ -19,11 +19,12 @@ namespace Ecommerce.Infrastructure
 
             services.AddDbContext<EcommerceDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"),
-                        b => b.MigrationsAssembly("Ecommerce.API")));
+                        b => b.MigrationsAssembly("Ecommerce.API"))
+                .UseSnakeCaseNamingConvention());
             services.AddScoped<IProductRepository,DapperProductRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
 
-            services.AddScoped<IDbConnection>(db=>new SqlConnection(configuration.GetConnectionString("PostgresConnection")));
+            services.AddScoped<IDbConnection>(db=>new NpgsqlConnection(configuration.GetConnectionString("PostgresConnection")));
             return services;
         }
     }

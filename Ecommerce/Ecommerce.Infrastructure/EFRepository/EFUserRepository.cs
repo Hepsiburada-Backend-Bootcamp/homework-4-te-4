@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.EFRepository
 {
-    
+
     public class EFUserRepository : IUserRepository
     {
         private readonly EcommerceDbContext _dbContext;
@@ -33,22 +33,22 @@ namespace Ecommerce.Infrastructure.EFRepository
 
         public async Task<User> FindByIdAsync(Guid id)
         {
-           // return _dbSet.Where(u => u.Id == id).FirstOrDefaultAsync();
-           return await _dbContext.Users.FindAsync(id);
+            // return _dbSet.Where(u => u.Id == id).FirstOrDefaultAsync();
+            return await _dbSet.FindAsync(id);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            User user =await FindByIdAsync(id);
+            User user = await FindByIdAsync(id);
             _dbSet.Remove(user);
             //daha sonra bakılacak!!
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(User user)
+        public async Task UpdateAsync(User user)
         {
-           _dbSet.Remove(user);
-           return _dbContext.SaveChangesAsync();
+            _dbSet.Update(user);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
