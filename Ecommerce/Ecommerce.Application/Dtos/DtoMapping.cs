@@ -21,6 +21,13 @@ namespace Ecommerce.Application.Dtos
             CreateMap<User, UserDto>();
             CreateMap<CreateUserDto, User>();
             CreateMap<UpdateUserDto, User>();
+
+            CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<CreateOrderItemDto, OrderItem>();
+
+            CreateMap<Order, OrderDto>();
+            CreateMap<CreateOrderDto, Order>();
+
         }
     }
 }
