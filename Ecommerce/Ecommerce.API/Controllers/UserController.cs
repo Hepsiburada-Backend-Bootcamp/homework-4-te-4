@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Ecommerce.Application.Dtos;
 using Ecommerce.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,34 +17,36 @@ namespace Ecommerce.API.Controllers
             _service = service;
         }
 
-        /*[HttpPost]
-        public IActionResult AddProduct([FromBody] CreateProductDto dto)
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody] CreateUserDto dto)
         {
-            return Ok(_service.CreateProduct(dto));
+            return Ok(await _service.CreateUser(dto));
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct([FromRoute]Guid id)
+        public async Task<IActionResult> DeleteUser([FromRoute]Guid id)
         {
-            return Ok(_service.DeleteProduct(id));
+            await _service.DeleteUser(id);
+            return Ok();
         }
-
+        
         [HttpGet("{id}")]
-        public IActionResult GetProduct([FromRoute]Guid id)
+        public async Task<IActionResult> GetUser([FromRoute]Guid id)
         {
-            return Ok(_service.GetProduct(id));
+            return Ok(await _service.GetUser(id));
         }
-        */
+        
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return Ok(_service.GetUsers());
+            return Ok(await _service.GetUsers());
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser([FromRoute]Guid id, [FromBody]UpdateUserDto dto)
+        public async Task<IActionResult> UpdateUser([FromRoute]Guid id, [FromBody]UpdateUserDto dto)
         {
-            return Ok(_service.UpdateUser(id,dto));
+            await _service.UpdateUser(id, dto);
+            return Ok();
         }
     }
 }
