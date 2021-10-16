@@ -74,9 +74,9 @@ namespace Ecommerce.Application.Services
             return _mapper.Map<List<Order>, List<OrderDto>>(orders);
         }
 
-        public async Task<bool> RemoveOrderItem(Guid orderItemId)
+        public async Task<bool> RemoveOrderItem(Guid orderId, Guid orderItemId)
         {
-            return await _repository.DeleteOrderItem(orderItemId);
+            return await _repository.DeleteOrderItem(orderId, orderItemId);
         }
 
         public async Task<bool> UpdateOrderItemQuantity(Guid orderItemId, int quantity)
