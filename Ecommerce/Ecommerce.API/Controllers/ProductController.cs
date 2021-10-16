@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Ecommerce.Application.Dtos;
 using Ecommerce.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,33 +18,35 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddProduct([FromBody] CreateProductDto dto)
+        public async Task<IActionResult> AddProduct([FromBody] CreateProductDto dto)
         {
-            return Ok(_service.CreateProduct(dto));
+            return Ok(await _service.CreateProduct(dto));
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct([FromRoute]Guid id)
+        public async Task<IActionResult> DeleteProduct([FromRoute]Guid id)
         {
-            return Ok(_service.DeleteProduct(id));
+            await _service.DeleteProduct(id);
+            return Ok();
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetProduct([FromRoute]Guid id)
+        public async Task<IActionResult> GetProduct([FromRoute]Guid id)
         {
-            return Ok(_service.GetProduct(id));
+            return Ok(await _service.GetProduct(id));
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            return Ok(_service.GetProducts());
+            return Ok(await _service.GetProducts());
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct([FromRoute]Guid id, [FromBody]UpdateProductDto dto)
+        public async Task<IActionResult> UpdateProduct([FromRoute]Guid id, [FromBody]UpdateProductDto dto)
         {
-            return Ok(_service.UpdateProduct(id,dto));
+            await _service.UpdateProduct(id, dto);
+            return Ok();
         }
     }
 }

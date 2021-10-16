@@ -9,8 +9,7 @@ using Ecommerce.Domain.Models;
 using Ecommerce.Domain.Repositories;
 using Ecommerce.Infrastructure.Context;
 using Microsoft.Extensions.Configuration;
-
-
+using Npgsql;
 
 namespace Ecommerce.Infrastructure.DapperRepository
 {
@@ -24,11 +23,22 @@ namespace Ecommerce.Infrastructure.DapperRepository
         }
         public async Task<Guid> AddAsync(Product product)
         {
-            string addSql = "INSERT INTO Products (Name,Brand,Price) VALUES(@Name,@Brand,@Price)";
+            //using (var cmd = new NpgsqlCommand("INSERT INTO Products (Id,Name,Brand,Price) VALUES(@Id,@Name,@Brand,@Price)", (NpgsqlConnection)_dbConnection))
+            //{
+            //    cmd.Parameters.AddWithValue(product);
+            //    cmd.ExecuteNonQuery();
+            //}
+
+            //string getSql = "SELECT Id FROM Products WHERE Name = @Name AND Brand = @Brand AND Price = @Price";
+            //return await _dbConnection.QuerySingleOrDefaultAsync<Guid>(getSql, product);
+
+
+            product.Id = Guid.NewGuid();
+            string addSql = "INSERT INTO Products (Id,Name,Brand,Price) VALUES(@Id,@Name,@Brand,@Price)";
             await _dbConnection.ExecuteAsync(addSql, product);
             //db otomatik Guid oluşturabiliyor mu? Guid vazgelim mi?
             string getSql = "SELECT Id FROM Products WHERE Name = @Name AND Brand = @Brand AND Price = @Price";
-            return  await _dbConnection.QuerySingleOrDefaultAsync<Guid>(getSql,product);
+            return await _dbConnection.QuerySingleOrDefaultAsync<Guid>(getSql, product);
         }
 
         public async Task<List<Product>> GetAllAsync()
