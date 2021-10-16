@@ -7,6 +7,7 @@ namespace Ecommerce.Domain.Models
 {
     public class Order
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         //[ForeignKey("UserId")]
