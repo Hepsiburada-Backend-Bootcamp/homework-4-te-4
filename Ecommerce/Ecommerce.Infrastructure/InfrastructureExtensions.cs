@@ -19,7 +19,8 @@ namespace Ecommerce.Infrastructure
 
             services.AddDbContext<EcommerceDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"),
-                        b => b.MigrationsAssembly("Ecommerce.API")));
+                        b => b.MigrationsAssembly("Ecommerce.API"))
+                .UseSnakeCaseNamingConvention());
             services.AddScoped<IProductRepository,DapperProductRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
 
