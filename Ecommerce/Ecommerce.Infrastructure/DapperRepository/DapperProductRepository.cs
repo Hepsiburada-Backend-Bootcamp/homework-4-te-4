@@ -23,20 +23,11 @@ namespace Ecommerce.Infrastructure.DapperRepository
         }
         public async Task<Guid> AddAsync(Product product)
         {
-            //using (var cmd = new NpgsqlCommand("INSERT INTO Products (Id,Name,Brand,Price) VALUES(@Id,@Name,@Brand,@Price)", (NpgsqlConnection)_dbConnection))
-            //{
-            //    cmd.Parameters.AddWithValue(product);
-            //    cmd.ExecuteNonQuery();
-            //}
-
-            //string getSql = "SELECT Id FROM Products WHERE Name = @Name AND Brand = @Brand AND Price = @Price";
-            //return await _dbConnection.QuerySingleOrDefaultAsync<Guid>(getSql, product);
-
 
             product.Id = Guid.NewGuid();
             string addSql = "INSERT INTO Products (Id,Name,Brand,Price) VALUES(@Id,@Name,@Brand,@Price)";
             await _dbConnection.ExecuteAsync(addSql, product);
-            //db otomatik Guid oluşturabiliyor mu? Guid vazgelim mi?
+
             string getSql = "SELECT Id FROM Products WHERE Name = @Name AND Brand = @Brand AND Price = @Price";
             return await _dbConnection.QuerySingleOrDefaultAsync<Guid>(getSql, product);
         }
@@ -44,26 +35,26 @@ namespace Ecommerce.Infrastructure.DapperRepository
         public async Task<List<Product>> GetAllAsync()
         {
             string sql = "SELECT * FROM Products";
-            var result =await _dbConnection.QueryAsync<Product>(sql);
+            var result = await _dbConnection.QueryAsync<Product>(sql);
             return result.ToList();
         }
 
         public async Task<Product> FindByIdAsync(Guid id)
         {
             string sql = "SELECT * FROM Products WHERE Id = @Id";
-            var result =await _dbConnection.QuerySingleOrDefaultAsync<Product>(sql, new {Id = id});
+            var result = await _dbConnection.QuerySingleOrDefaultAsync<Product>(sql, new { Id = id });
             return result;
         }
 
         public Task DeleteAsync(Guid id)
         {
             string sql = "DELETE FROM Products WHERE Id = @Id";
-           return _dbConnection.ExecuteAsync(sql, new {Id = id});
-            
+            return _dbConnection.ExecuteAsync(sql, new { Id = id });
+
         }
 
         public Task UpdateAsync(Product product)
-        { 
+        {
             string sql = "UPDATE Products SET Name = @Name , Brand = @Brand , Price = @Price WHERE Id = @Id ";
             return _dbConnection.ExecuteAsync(sql, product);
         }
