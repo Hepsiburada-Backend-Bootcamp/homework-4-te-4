@@ -22,7 +22,7 @@ namespace Ecommerce.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             
             services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IProductRepository, MockProductRepository>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }

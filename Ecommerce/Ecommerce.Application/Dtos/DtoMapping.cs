@@ -12,6 +12,8 @@ namespace Ecommerce.Application.Dtos
     {
         public DtoMapping()
         {
+            AllowNullCollections = true;
+            
             CreateMap<Product, ProductDto>();
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();
