@@ -33,6 +33,8 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Orders");
                 });
 
@@ -57,7 +59,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrdersItems");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Models.Product", b =>
@@ -100,6 +102,15 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Ecommerce.Domain.Models.Order", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Models.User", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Ecommerce.Domain.Models.OrderItem", b =>
                 {
                     b.HasOne("Ecommerce.Domain.Models.Order", null)
@@ -118,6 +129,11 @@ namespace Ecommerce.API.Migrations
             modelBuilder.Entity("Ecommerce.Domain.Models.Order", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.Models.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
