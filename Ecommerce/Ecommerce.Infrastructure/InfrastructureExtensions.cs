@@ -7,6 +7,8 @@ using Ecommerce.Infrastructure.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using Npgsql;
 
 namespace Ecommerce.Infrastructure
@@ -21,6 +23,13 @@ namespace Ecommerce.Infrastructure
                 options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"),
                         b => b.MigrationsAssembly("Ecommerce.API"))
                 .UseSnakeCaseNamingConvention());
+            
+            services.Configure<OrderDatabaseSettings>(configuration.GetSection(nameof(OrderDatabaseSettings)));
+            services.AddSingleton<IOrderDatabaseSettings>(sp => 
+                sp.GetRequiredService<IOptions<OrderDatabaseSettings>>().Value);
+            
+            services.AddScoped<IOrderMongoContext, OrderMongoContext>();
+            
             services.AddScoped<IProductRepository,DapperProductRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
             services.AddScoped<IOrderRepository, DapperOrderRepository>();
