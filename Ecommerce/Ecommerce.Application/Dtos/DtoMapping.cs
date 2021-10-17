@@ -22,7 +22,7 @@ namespace Ecommerce.Application.Dtos
             CreateMap<CreateUserDto, User>();
             CreateMap<UpdateUserDto, User>();
 
-            CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<OrderItem, OrderItemDto>().ForMember(oi=>oi.ProductDto,opt=>opt.MapFrom(o=>o.Product));
             CreateMap<CreateOrderItemDto, OrderItem>();
 
             CreateMap<Order, OrderDto>();

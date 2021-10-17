@@ -98,6 +98,9 @@ namespace Ecommerce.Infrastructure.DapperRepository
         {
             string sql = "SELECT * FROM Orders WHERE Id = @Id";
             var result = await _dbConnection.QuerySingleOrDefaultAsync<Order>(sql, new { Id = orderId });
+
+            result = await PropertyFiller(result);
+
             return result;
         }
 
@@ -105,6 +108,13 @@ namespace Ecommerce.Infrastructure.DapperRepository
         {
             string sql = "SELECT * FROM Orders WHERE User_Id = @UserId";
             var result = await _dbConnection.QueryAsync<Order>(sql, new { UserId = userId });
+
+            for (int i = 0; i < result.Count(); i++)
+            {
+                result.ToList()[i] = await PropertyFiller(result.ToList()[i]);
+            }
+
+
             return result.ToList();
 
         }
@@ -113,6 +123,13 @@ namespace Ecommerce.Infrastructure.DapperRepository
         {
             string sql = "SELECT * FROM Orders";
             var result = await _dbConnection.QueryAsync<Order>(sql);
+
+            for (int i = 0; i < result.Count(); i++)
+            {
+                result.ToList()[i] = await PropertyFiller(result.ToList()[i]);
+            }
+
+
             return result.ToList();
         }
 
@@ -120,9 +137,26 @@ namespace Ecommerce.Infrastructure.DapperRepository
         {
             string sql = "UPDATE Order_Items SET Quantity = @Quantity WHERE Id=@Id";
 
-            await _dbConnection.ExecuteAsync(sql, new { Id = orderItemId });
+            await _dbConnection.ExecuteAsync(sql, new { Id = orderItemId, Quantity=quantity });
 
             return true;
         }
+        private async Task<Order> PropertyFiller(Order order)
+        {
+
+            string orderItemSql = "SELECT * FROM order_items WHERE order_id=@Id";
+            var orderItems = await _dbConnection.QueryAsync<OrderItem>(orderItemSql, new { Id = order.Id });
+            
+            for (int i = 0; i < orderItems.Count(); i++)
+            {
+                string productSql = "SELECT * FROM products WHERE id=@Id";
+                var product = await _dbConnection.QuerySingleOrDefaultAsync<Product>(productSql, new { Id = orderItems.ToList()[i].ProductId });
+                orderItems.ToList()[i].Product = product;
+            }
+
+            order.Items = orderItems.ToList();
+            return order;
+        }
+
     }
 }

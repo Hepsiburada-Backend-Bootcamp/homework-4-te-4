@@ -24,6 +24,8 @@ namespace Ecommerce.Application.Services
         }
         public async Task<bool> AddOrderItem(CreateOrderItemDto dto)
         {
+            //ToDo Gönderilen product daha önce eklenmiş mi kontrol edilebilir.
+
             Product product = await _productRepository.FindByIdAsync(dto.ProductId);
             if (product == null)
             {
