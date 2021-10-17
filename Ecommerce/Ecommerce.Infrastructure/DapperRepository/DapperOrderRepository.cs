@@ -143,6 +143,8 @@ namespace Ecommerce.Infrastructure.DapperRepository
         }
         private async Task<Order> PropertyFiller(Order order)
         {
+            string userSql = "SELECT * FROM users WHERE id=@Id";
+            var user = await _dbConnection.QuerySingleOrDefaultAsync<User>(userSql, new { Id = order.UserId });
 
             string orderItemSql = "SELECT * FROM order_items WHERE order_id=@Id";
             var orderItems = await _dbConnection.QueryAsync<OrderItem>(orderItemSql, new { Id = order.Id });
@@ -154,6 +156,7 @@ namespace Ecommerce.Infrastructure.DapperRepository
                 orderItems.ToList()[i].Product = product;
             }
 
+            order.User = user;
             order.Items = orderItems.ToList();
             return order;
         }
