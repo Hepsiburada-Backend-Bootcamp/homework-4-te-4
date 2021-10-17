@@ -17,6 +17,8 @@ namespace Ecommerce.Infrastructure.DapperRepository
         public DapperOrderRepository(IDbConnection dbConnection)
         {
             _dbConnection = dbConnection;
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
         }
 
         public async Task<Guid> AddAsync(Order order)
@@ -34,7 +36,7 @@ namespace Ecommerce.Infrastructure.DapperRepository
         public async Task<bool> CreateOrderItem(OrderItem orderItem)
         {
             string productSql = "SELECT * FROM Products WHERE Id = @Id";
-            var result = await _dbConnection.QuerySingleOrDefaultAsync<Product>(productSql, new { Id = orderItem.Product.Id });
+            var result = await _dbConnection.QuerySingleOrDefaultAsync<Product>(productSql, new { Id = orderItem.ProductId });
 
             if (result == null || orderItem.Quantity <= 0)
             {
@@ -43,7 +45,7 @@ namespace Ecommerce.Infrastructure.DapperRepository
 
             orderItem.Id = Guid.NewGuid();
             //OrderItems - order-items tablo ismi uyusacak mi?
-            string createSql = "INSERT INTO Order_Items (Id,Order_Id,Product_Id,Quantity) VALUES(@Id,@OrderId,@Product.Id,@Quantity)";
+            string createSql = "INSERT INTO Order_Items (Id,Order_Id,Product_Id,Quantity) VALUES(@Id,@OrderId,@ProductId,@Quantity)";
             await _dbConnection.ExecuteAsync(createSql, orderItem);
 
             return true;

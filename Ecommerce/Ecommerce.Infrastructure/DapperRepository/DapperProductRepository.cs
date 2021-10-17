@@ -20,6 +20,8 @@ namespace Ecommerce.Infrastructure.DapperRepository
         public DapperProductRepository(IDbConnection dbContext)
         {
             _dbConnection = dbContext;
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
         }
         public async Task<Guid> AddAsync(Product product)
         {

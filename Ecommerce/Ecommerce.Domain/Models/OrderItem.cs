@@ -8,7 +8,10 @@ namespace Ecommerce.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid OrderId { get; set; }
-        public Product Product { get; set; }
+        public Guid ProductId { get; set; }
         public int Quantity { get; set; }
+
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
     }
 }

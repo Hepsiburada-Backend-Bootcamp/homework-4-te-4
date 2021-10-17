@@ -15,12 +15,15 @@ namespace Ecommerce.Domain.Models
         
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        [ForeignKey("User_Id")]
         public Guid UserId { get; set; }
-        //[ForeignKey("User_Id")]
-        //public virtual User User { get; set; }
-        public virtual ICollection<OrderItem> Items { get; set; }
         public bool IsFinal { get; set; } = false;
+
+
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+        public virtual ICollection<OrderItem> Items { get; set; }
+
+
         public virtual double TotalPrice
         {
             get => CalculatePrice();

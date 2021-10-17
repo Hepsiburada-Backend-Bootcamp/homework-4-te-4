@@ -31,7 +31,7 @@ namespace Ecommerce.Application.Services
             }
             
             OrderItem orderItem = _mapper.Map<CreateOrderItemDto, OrderItem>(dto);
-            orderItem.Product = product;
+            //orderItem.Product = product;
             
             return await _repository.CreateOrderItem(orderItem);
         }
