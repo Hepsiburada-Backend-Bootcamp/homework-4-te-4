@@ -15,15 +15,15 @@ namespace Ecommerce.Application.Services
         private readonly IOrderRepository _repository;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        private readonly IMongoOrderRepository _mongoRepository;
+        private readonly IOrderMongoService _mongoService;
 
         public OrderService(IOrderRepository repository, IProductRepository productRepository,
-                            IMapper mapper, IMongoOrderRepository mongoRepository)
+                            IMapper mapper, IOrderMongoService mongoService)
         {
             _repository = repository;
             _productRepository = productRepository;
             _mapper = mapper;
-            _mongoRepository = mongoRepository;
+            _mongoService = mongoService;
         }
         public async Task<bool> AddOrderItem(CreateOrderItemDto dto)
         {
@@ -58,7 +58,7 @@ namespace Ecommerce.Application.Services
 
             Order order = await _repository.FindByIdAsync(orderId);
             // dto yollanması gerekebilir. 
-            bool mongoFinalized = await _mongoRepository.InsertRecordAsync(order);
+            bool mongoFinalized = await _mongoService.InsertRecord(order);
 
             return sqlFinalized && mongoFinalized;
         }

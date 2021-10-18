@@ -4,6 +4,7 @@ using Ecommerce.Domain.Repositories;
 using Ecommerce.Infrastructure.Context;
 using Ecommerce.Infrastructure.DapperRepository;
 using Ecommerce.Infrastructure.EFRepository;
+using Ecommerce.Infrastructure.MongoRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,7 @@ namespace Ecommerce.Infrastructure
             services.AddScoped<IProductRepository,DapperProductRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
             services.AddScoped<IOrderRepository, DapperOrderRepository>();
+            services.AddScoped<IMongoOrderRepository, MongoOrderRepository>();
 
             services.AddScoped<IDbConnection>(db=>new NpgsqlConnection(configuration.GetConnectionString("PostgresConnection")));
             return services;
