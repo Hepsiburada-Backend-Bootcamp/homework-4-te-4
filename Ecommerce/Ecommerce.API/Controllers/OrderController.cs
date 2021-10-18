@@ -11,10 +11,12 @@ namespace Ecommerce.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _service;
+        private readonly IOrderMongoService _mongoService;
 
-        public OrderController(IOrderService service)
+        public OrderController(IOrderService service, IOrderMongoService mongoService)
         {
             _service = service;
+            _mongoService = mongoService;
         }
 
         [HttpPost]
@@ -73,6 +75,18 @@ namespace Ecommerce.API.Controllers
         public async Task<IActionResult> FinalizeOrder([FromRoute]Guid orderId)
         {
             return Ok(await _service.FinalizeOrder(orderId));
+        }
+
+        [HttpGet("records/{userId:guid}")]
+        public async Task<IActionResult> LoadByUserId(Guid userId)
+        {
+            return Ok(await _mongoService.LoadByUserId(userId));
+        }
+
+        [HttpGet("records/{orderId:guid}")]
+        public async Task<IActionResult> LoadByOrderId(Guid orderId)
+        {
+            return Ok(await _mongoService.LoadByOrderId(orderId));
         }
     }
 }
