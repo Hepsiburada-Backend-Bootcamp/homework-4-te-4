@@ -1,10 +1,11 @@
 ﻿using Ecommerce.Application.Dtos;
-using Ecommerce.Domain.Models;
+using Ecommerce.Domain.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductDto = Ecommerce.Domain.Dtos.ProductDto;
 
 namespace Ecommerce.Application.Services
 {

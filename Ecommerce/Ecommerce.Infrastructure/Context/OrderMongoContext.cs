@@ -1,3 +1,4 @@
+using Ecommerce.Domain.Dtos;
 using Ecommerce.Domain.Models;
 using MongoDB.Driver;
 
@@ -9,8 +10,8 @@ namespace Ecommerce.Infrastructure.Context
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
-            Orders = database.GetCollection<Order>(settings.CollectionName);
+            Orders = database.GetCollection<OrderDto>(settings.CollectionName);
         }
-        public IMongoCollection<Order> Orders { get; }
+        public IMongoCollection<OrderDto> Orders { get; }
     }
 }

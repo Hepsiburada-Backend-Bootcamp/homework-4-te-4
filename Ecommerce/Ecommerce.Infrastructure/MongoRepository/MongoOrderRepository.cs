@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ecommerce.Domain.Dtos;
 using Ecommerce.Domain.Models;
 using Ecommerce.Domain.Repositories;
 using Ecommerce.Infrastructure.Context;
@@ -18,25 +19,25 @@ namespace Ecommerce.Infrastructure.MongoRepository
             _context = context;
         }
 
-        public async Task<bool> InsertRecordAsync(Order order)
+        public async Task<bool> InsertRecordAsync(OrderDto orderDto)
         {
-            await _context.Orders.InsertOneAsync(order);
+            await _context.Orders.InsertOneAsync(orderDto);
             return true;
         }
 
         //TODO: RENAME
-        public async Task<List<Order>> GetAllAsync()
+        public async Task<List<OrderDto>> GetAllAsync()
         {
             return await _context.Orders.Find(new BsonDocument()).ToListAsync();
         }
 
-        public async Task<Order> FindByIdAsync(Guid id)
+        public async Task<OrderDto> FindByIdAsync(Guid id)
         {
             //Use filters if fails
             return await _context.Orders.Find(o => o.Id == id).FirstAsync();
         }
 
-        public async Task<List<Order>> FindByUserIdAsync(Guid userId)
+        public async Task<List<OrderDto>> FindByUserIdAsync(Guid userId)
         {
             return await _context.Orders.Find(o => o.UserId == userId).ToListAsync();
         }
