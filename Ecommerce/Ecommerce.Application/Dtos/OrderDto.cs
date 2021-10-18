@@ -14,5 +14,6 @@ namespace Ecommerce.Application.Dtos
         public ICollection<OrderItemDto> Items{ get; set; }
         public bool IsFinal { get; set; }
         public double TotalPrice { get; set; }
+        public UserDto UserDto { get; set; }
     }
 }
