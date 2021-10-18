@@ -77,13 +77,13 @@ namespace Ecommerce.API.Controllers
             return Ok(await _service.FinalizeOrder(orderId));
         }
 
-        [HttpGet("records/{userId:guid}")]
+        [HttpGet("records/user/{userId:guid}")]
         public async Task<IActionResult> LoadByUserId(Guid userId)
         {
             return Ok(await _mongoService.LoadByUserId(userId));
         }
 
-        [HttpGet("records/{orderId:guid}")]
+        [HttpGet("records/order/{orderId:guid}")]
         public async Task<IActionResult> LoadByOrderId(Guid orderId)
         {
             return Ok(await _mongoService.LoadByOrderId(orderId));
