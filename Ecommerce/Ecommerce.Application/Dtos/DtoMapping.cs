@@ -13,7 +13,7 @@ namespace Ecommerce.Application.Dtos
         public DtoMapping()
         {
             AllowNullCollections = true;
-            
+
             CreateMap<Product, ProductDto>();
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();
@@ -22,10 +22,12 @@ namespace Ecommerce.Application.Dtos
             CreateMap<CreateUserDto, User>();
             CreateMap<UpdateUserDto, User>();
 
-            CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<OrderItem, OrderItemDto>()
+                .ForMember(oiDto => oiDto.ProductDto, opt => opt.MapFrom(oi => oi.Product));
             CreateMap<CreateOrderItemDto, OrderItem>();
 
-            CreateMap<Order, OrderDto>();
+            CreateMap<Order, OrderDto>()
+                .ForMember(oDto => oDto.UserDto, opt => opt.MapFrom(o => o.User));
             CreateMap<CreateOrderDto, Order>();
 
         }

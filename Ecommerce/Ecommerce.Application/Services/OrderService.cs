@@ -10,20 +10,25 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
-    class OrderService : IOrderService
+    public class OrderService : IOrderService
     {
         private readonly IOrderRepository _repository;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
+        private readonly IOrderMongoService _mongoService;
 
-        public OrderService(IOrderRepository repository, IProductRepository productRepository, IMapper mapper)
+        public OrderService(IOrderRepository repository, IProductRepository productRepository,
+                            IMapper mapper, IOrderMongoService mongoService)
         {
             _repository = repository;
             _productRepository = productRepository;
             _mapper = mapper;
+            _mongoService = mongoService;
         }
         public async Task<bool> AddOrderItem(CreateOrderItemDto dto)
         {
+            //ToDo Gönderilen product daha önce eklenmiş mi kontrol edilebilir.
+
             Product product = await _productRepository.FindByIdAsync(dto.ProductId);
             if (product == null)
             {
@@ -31,7 +36,7 @@ namespace Ecommerce.Application.Services
             }
             
             OrderItem orderItem = _mapper.Map<CreateOrderItemDto, OrderItem>(dto);
-            orderItem.Product = product;
+            //orderItem.Product = product;
             
             return await _repository.CreateOrderItem(orderItem);
         }
@@ -50,8 +55,10 @@ namespace Ecommerce.Application.Services
         public async Task<bool> FinalizeOrder(Guid orderId)
         {
             bool sqlFinalized = await _repository.FinalizeOrder(orderId);
-            //TODO: mongo implement edilecek.
-            bool mongoFinalized = true;
+
+            Order order = await _repository.FindByIdAsync(orderId);
+            // dto yollanması gerekebilir. 
+            bool mongoFinalized = await _mongoService.InsertRecord(order);
 
             return sqlFinalized && mongoFinalized;
         }
@@ -74,9 +81,9 @@ namespace Ecommerce.Application.Services
             return _mapper.Map<List<Order>, List<OrderDto>>(orders);
         }
 
-        public async Task<bool> RemoveOrderItem(Guid orderItemId)
+        public async Task<bool> RemoveOrderItem(Guid orderId, Guid orderItemId)
         {
-            return await _repository.DeleteOrderItem(orderItemId);
+            return await _repository.DeleteOrderItem(orderId, orderItemId);
         }
 
         public async Task<bool> UpdateOrderItemQuantity(Guid orderItemId, int quantity)

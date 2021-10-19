@@ -16,6 +16,7 @@ Migrationlar ekleme ve database update (API projesinin altında çalıştırılm
 
 # Database admin panel erişimi
 
+## Postgres
 Docker ayağa kaldırıldıktan sonra `localhost:5050` ile admin paneline erişilir.
 
 ```
@@ -32,6 +33,10 @@ port: 5432
 username: postgres
 password: toor
 ```
+## Mongo
+Docker ayağa kaldırıldıktan sonra `localhost:8081` ile admin paneline erişilir.
+
+<br></br>
 
 # 4. Hafta Ödev
 Basit bir e-ticaret apisi geliştirin.

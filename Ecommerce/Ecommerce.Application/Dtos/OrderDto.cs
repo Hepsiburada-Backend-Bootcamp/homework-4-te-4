@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Dtos
 {
-    class OrderDto
+    public class OrderDto
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public ICollection<OrderItemDto> Items{ get; set; }
         public bool IsFinal { get; set; }
         public double TotalPrice { get; set; }
+        public UserDto UserDto { get; set; }
     }
 }

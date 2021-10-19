@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
-    interface IOrderService
+    public interface IOrderService
     {
         Task<Guid> CreateOrder(CreateOrderDto dto);
         Task<List<OrderDto>> GetOrders();
@@ -16,7 +16,7 @@ namespace Ecommerce.Application.Services
         Task<List<OrderDto>> GetOrdersOfUser(Guid userId);
 
         Task<bool> AddOrderItem(CreateOrderItemDto dto);
-        Task<bool> RemoveOrderItem(Guid orderItemId);
+        Task<bool> RemoveOrderItem(Guid orderId, Guid orderItemId);
 
         Task<bool> UpdateOrderItemQuantity(Guid orderItemId, int quantity);
         Task<bool> FinalizeOrder(Guid orderId);

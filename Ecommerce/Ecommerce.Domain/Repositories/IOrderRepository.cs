@@ -15,7 +15,7 @@ namespace Ecommerce.Domain.Repositories
 
         //No adding or subtracting
         Task<bool> CreateOrderItem(OrderItem orderItem);
-        Task<bool> DeleteOrderItem(Guid orderItemId);
+        Task<bool> DeleteOrderItem(Guid orderId, Guid orderItemId);
 
         //Check if orderItem exists, update quantity
         Task<bool> UpdateOrderItemQuantity(Guid orderItemId, int quantity);
