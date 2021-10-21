@@ -3,7 +3,6 @@ using Ecommerce.Domain.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserDto = Ecommerce.Domain.Dtos.UserDto;
 
 namespace Ecommerce.Application.Services
 {
