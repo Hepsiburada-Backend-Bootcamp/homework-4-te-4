@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ecommerce.Application.Dtos
+namespace Ecommerce.Domain.Dtos
 {
     public class UserDto
     {

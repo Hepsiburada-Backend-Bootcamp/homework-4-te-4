@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Dtos;
+using Ecommerce.Domain.Dtos;
 using Ecommerce.Domain.Models;
 using Ecommerce.Domain.Repositories;
 using System;
@@ -56,9 +57,9 @@ namespace Ecommerce.Application.Services
         {
             bool sqlFinalized = await _repository.FinalizeOrder(orderId);
 
-            Order order = await _repository.FindByIdAsync(orderId);
+            OrderDto orderDto = await GetOrder(orderId);
             // dto yollanması gerekebilir. 
-            bool mongoFinalized = await _mongoService.InsertRecord(order);
+            bool mongoFinalized = await _mongoService.InsertRecord(orderDto);
 
             return sqlFinalized && mongoFinalized;
         }

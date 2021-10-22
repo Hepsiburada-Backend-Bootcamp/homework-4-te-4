@@ -1,4 +1,5 @@
-﻿using Ecommerce.Domain.Models;
+﻿using Ecommerce.Domain.Dtos;
+using Ecommerce.Domain.Models;
 using Ecommerce.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,22 +17,22 @@ namespace Ecommerce.Application.Services
         {
             _repository = repository;
         }
-        public async Task<bool> InsertRecord(Order order)
+        public async Task<bool> InsertRecord(OrderDto orderDto)
         {
-            return await _repository.InsertRecordAsync(order);            
+            return await _repository.InsertRecordAsync(orderDto);            
         }
 
-        public async Task<List<Order>> LoadAll()
+        public async Task<List<OrderDto>> LoadAll()
         {
             return await _repository.GetAllAsync();
         }
 
-        public async Task<Order> LoadByOrderId(Guid id)
+        public async Task<OrderDto> LoadByOrderId(Guid id)
         {
             return await _repository.FindByIdAsync(id);
         }
 
-        public async Task<List<Order>> LoadByUserId(Guid userId)
+        public async Task<List<OrderDto>> LoadByUserId(Guid userId)
         {
             return await _repository.FindByUserIdAsync(userId);
         }

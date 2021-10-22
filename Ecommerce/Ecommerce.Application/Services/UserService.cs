@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Dtos;
+using Ecommerce.Domain.Dtos;
 using Ecommerce.Domain.Models;
 using Ecommerce.Domain.Repositories;
 using System;

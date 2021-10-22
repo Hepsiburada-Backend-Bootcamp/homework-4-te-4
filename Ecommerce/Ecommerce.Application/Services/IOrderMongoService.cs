@@ -1,4 +1,5 @@
-﻿using Ecommerce.Domain.Models;
+﻿using Ecommerce.Domain.Dtos;
+using Ecommerce.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Ecommerce.Application.Services
 {
     public interface IOrderMongoService
     {
-        public Task<bool> InsertRecord(Order order);
-        public Task<List<Order>> LoadAll();
-        public Task<Order> LoadByOrderId(Guid id);
-        public Task<List<Order>> LoadByUserId(Guid userId);
+        public Task<bool> InsertRecord(OrderDto orderDto);
+        public Task<List<OrderDto>> LoadAll();
+        public Task<OrderDto> LoadByOrderId(Guid id);
+        public Task<List<OrderDto>> LoadByUserId(Guid userId);
 
     }
 }

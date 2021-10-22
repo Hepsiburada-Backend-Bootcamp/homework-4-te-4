@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Application.Dtos
+namespace Ecommerce.Domain.Dtos
 {
     public class OrderItemDto
     {
