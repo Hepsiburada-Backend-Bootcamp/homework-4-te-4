@@ -25,6 +25,7 @@ namespace Ecommerce.Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOrderRecordService, OrderRecordService>();
+
             return services;
         }
     }
