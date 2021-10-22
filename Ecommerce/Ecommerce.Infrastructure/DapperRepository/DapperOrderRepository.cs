@@ -44,7 +44,6 @@ namespace Ecommerce.Infrastructure.DapperRepository
             }
 
             orderItem.Id = Guid.NewGuid();
-            //OrderItems - order-items tablo ismi uyusacak mi?
             string createSql = "INSERT INTO Order_Items (Id,Order_Id,Product_Id,Quantity) VALUES(@Id,@OrderId,@ProductId,@Quantity)";
             await _dbConnection.ExecuteAsync(createSql, orderItem);
 
@@ -63,7 +62,6 @@ namespace Ecommerce.Infrastructure.DapperRepository
 
         public async Task<bool> DeleteOrderItem(Guid orderId, Guid orderItemId)
         {
-            //TODO: CHECK IF ORDERITEM BELONG TO ORDER
             string checkSql = "SELECT * FROM Order_Items WHERE Id = @Id";
             var result = await _dbConnection.QuerySingleOrDefaultAsync<OrderItem>(checkSql, new { Id = orderItemId });
 

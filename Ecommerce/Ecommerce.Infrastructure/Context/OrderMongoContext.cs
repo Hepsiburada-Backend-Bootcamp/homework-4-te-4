@@ -6,12 +6,14 @@ namespace Ecommerce.Infrastructure.Context
 {
     public class OrderMongoContext : IOrderMongoContext
     {
+
+        public IMongoCollection<OrderDto> Orders { get; }
+
         public OrderMongoContext(IOrderDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             Orders = database.GetCollection<OrderDto>(settings.CollectionName);
         }
-        public IMongoCollection<OrderDto> Orders { get; }
     }
 }

@@ -16,28 +16,27 @@ namespace Ecommerce.Application.Services
         private readonly IOrderRepository _repository;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        private readonly IOrderMongoService _mongoService;
+        private readonly IOrderRecordService _recordService;
 
         public OrderService(IOrderRepository repository, IProductRepository productRepository,
-                            IMapper mapper, IOrderMongoService mongoService)
+                            IMapper mapper, IOrderRecordService recordService)
         {
             _repository = repository;
             _productRepository = productRepository;
             _mapper = mapper;
-            _mongoService = mongoService;
+            _recordService = recordService;
         }
         public async Task<bool> AddOrderItem(CreateOrderItemDto dto)
         {
-            //ToDo Gönderilen product daha önce eklenmiş mi kontrol edilebilir.
+            //ToDo: Gönderilen product daha önce eklenmiş mi kontrol edilebilir. Repositorye FindByProductId eklenirse yapılabilir.
 
             Product product = await _productRepository.FindByIdAsync(dto.ProductId);
             if (product == null)
             {
                 return false;
             }
-            
+
             OrderItem orderItem = _mapper.Map<CreateOrderItemDto, OrderItem>(dto);
-            //orderItem.Product = product;
             
             return await _repository.CreateOrderItem(orderItem);
         }
@@ -58,8 +57,7 @@ namespace Ecommerce.Application.Services
             bool sqlFinalized = await _repository.FinalizeOrder(orderId);
 
             OrderDto orderDto = await GetOrder(orderId);
-            // dto yollanması gerekebilir. 
-            bool mongoFinalized = await _mongoService.InsertRecord(orderDto);
+            bool mongoFinalized = await _recordService.InsertRecord(orderDto);
 
             return sqlFinalized && mongoFinalized;
         }

@@ -33,7 +33,12 @@ namespace Ecommerce.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct([FromRoute]Guid id)
         {
-            return Ok(await _service.GetProduct(id));
+            var result = await _service.GetProduct(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpGet]

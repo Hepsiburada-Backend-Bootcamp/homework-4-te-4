@@ -34,7 +34,7 @@ namespace Ecommerce.Infrastructure
             services.AddScoped<IProductRepository,DapperProductRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
             services.AddScoped<IOrderRepository, DapperOrderRepository>();
-            services.AddScoped<IMongoOrderRepository, MongoOrderRepository>();
+            services.AddScoped<IOrderRecordRepository, OrderMongoRepository>();
 
             services.AddScoped<IDbConnection>(db=>new NpgsqlConnection(configuration.GetConnectionString("PostgresConnection")));
             return services;

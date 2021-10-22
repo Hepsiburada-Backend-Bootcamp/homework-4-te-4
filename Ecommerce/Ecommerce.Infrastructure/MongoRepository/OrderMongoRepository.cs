@@ -10,11 +10,11 @@ using MongoDB.Driver;
 
 namespace Ecommerce.Infrastructure.MongoRepository
 {
-    public class MongoOrderRepository : IMongoOrderRepository
+    public class OrderMongoRepository : IOrderRecordRepository
     {
         IOrderMongoContext _context;
 
-        public MongoOrderRepository(IOrderMongoContext context)
+        public OrderMongoRepository(IOrderMongoContext context)
         {
             _context = context;
         }
@@ -24,20 +24,19 @@ namespace Ecommerce.Infrastructure.MongoRepository
             await _context.Orders.InsertOneAsync(orderDto);
             return true;
         }
-
-        //TODO: RENAME
-        public async Task<List<OrderDto>> GetAllAsync()
+        
+        public async Task<List<OrderDto>> LoadAllAsync()
         {
             return await _context.Orders.Find(new BsonDocument()).ToListAsync();
         }
 
-        public async Task<OrderDto> FindByIdAsync(Guid id)
+        public async Task<OrderDto> LoadByIdAsync(Guid id)
         {
             //Use filters if fails
             return await _context.Orders.Find(o => o.Id == id).FirstAsync();
         }
 
-        public async Task<List<OrderDto>> FindByUserIdAsync(Guid userId)
+        public async Task<List<OrderDto>> LoadByUserIdAsync(Guid userId)
         {
             return await _context.Orders.Find(o => o.UserId == userId).ToListAsync();
         }

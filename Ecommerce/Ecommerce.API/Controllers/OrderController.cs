@@ -11,12 +11,12 @@ namespace Ecommerce.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _service;
-        private readonly IOrderMongoService _mongoService;
+        private readonly IOrderRecordService _recordService;
 
-        public OrderController(IOrderService service, IOrderMongoService mongoService)
+        public OrderController(IOrderService service, IOrderRecordService recordService)
         {
             _service = service;
-            _mongoService = mongoService;
+            _recordService = recordService;
         }
 
         [HttpPost]
@@ -26,16 +26,21 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteOrder([FromRoute]Guid id)
+        public async Task<IActionResult> DeleteOrder([FromRoute] Guid id)
         {
             await _service.DeleteOrder(id);
             return Ok();
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetOrder([FromRoute]Guid id)
+        public async Task<IActionResult> GetOrder([FromRoute] Guid id)
         {
-            return Ok(await _service.GetOrder(id));
+            var result = await _service.GetOrder(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpGet]
@@ -43,50 +48,71 @@ namespace Ecommerce.API.Controllers
         {
             return Ok(await _service.GetOrders());
         }
-        
+
         [HttpGet("user/{userId:guid}")]
-        public async Task<IActionResult> GetOrdersOfUser([FromRoute]Guid userId)
+        public async Task<IActionResult> GetOrdersOfUser([FromRoute] Guid userId)
         {
-            return Ok(await _service.GetOrdersOfUser(userId));
+            var result = await _service.GetOrdersOfUser(userId);
+            
+            if (result == null)
+                return NotFound();
+
+            return Ok();
         }
 
         [HttpPost("{orderId:guid}")]
-        public async Task<IActionResult> AddItemToOrder([FromRoute]Guid orderId, [FromBody] CreateOrderItemDto dto)
+        public async Task<IActionResult> AddItemToOrder([FromRoute] Guid orderId, [FromBody] CreateOrderItemDto dto)
         {
-            if(orderId == dto.OrderId)
+            if (orderId == dto.OrderId)
                 return Ok(await _service.AddOrderItem(dto));
             return BadRequest();
         }
-        
+
         [HttpDelete("{orderId:guid}/{orderItemId:guid}")]
-        public async Task<IActionResult> RemoveItemFromOrder([FromRoute]Guid orderId, [FromRoute]Guid orderItemId)
+        public async Task<IActionResult> RemoveItemFromOrder([FromRoute] Guid orderId, [FromRoute] Guid orderItemId)
         {
-            return Ok(await _service.RemoveOrderItem(orderId,orderItemId));
+            return Ok(await _service.RemoveOrderItem(orderId, orderItemId));
         }
 
         [HttpPatch("{orderId:guid}/{orderItemId:guid}")]
-        public async Task<IActionResult> UpdateItemQuantity([FromRoute]Guid orderId, [FromRoute]Guid orderItemId, [FromQuery]int quantity)
+        public async Task<IActionResult> UpdateItemQuantity([FromRoute] Guid orderId, [FromRoute] Guid orderItemId, [FromQuery] int quantity)
         {
             //TODO: validate orderId
-            return Ok(await _service.UpdateOrderItemQuantity(orderItemId,quantity));
+            return Ok(await _service.UpdateOrderItemQuantity(orderItemId, quantity));
         }
 
         [HttpPatch("{orderId:guid}")]
-        public async Task<IActionResult> FinalizeOrder([FromRoute]Guid orderId)
+        public async Task<IActionResult> FinalizeOrder([FromRoute] Guid orderId)
         {
             return Ok(await _service.FinalizeOrder(orderId));
         }
 
-        [HttpGet("records/user/{userId:guid}")]
+        [HttpGet("records/users/{userId:guid}")]
         public async Task<IActionResult> LoadByUserId(Guid userId)
         {
-            return Ok(await _mongoService.LoadByUserId(userId));
+            var result = await _recordService.LoadByUserId(userId);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
-        [HttpGet("records/order/{orderId:guid}")]
+        [HttpGet("records/orders/{orderId:guid}")]
         public async Task<IActionResult> LoadByOrderId(Guid orderId)
         {
-            return Ok(await _mongoService.LoadByOrderId(orderId));
+            var result = await _recordService.LoadByOrderId(orderId);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpGet("records/orders/")]
+        public async Task<IActionResult> LoadAll()
+        {
+            return Ok(await _recordService.LoadAll());
         }
     }
 }

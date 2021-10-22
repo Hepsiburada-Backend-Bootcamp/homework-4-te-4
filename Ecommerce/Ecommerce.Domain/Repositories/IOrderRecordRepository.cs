@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Domain.Repositories
 {
-    public interface IMongoOrderRepository
+    public interface IOrderRecordRepository
     {
-        Task<OrderDto> FindByIdAsync(Guid id);
-        Task<List<OrderDto>> FindByUserIdAsync(Guid userId);
-        Task<List<OrderDto>> GetAllAsync();
+        Task<OrderDto> LoadByIdAsync(Guid id);
+        Task<List<OrderDto>> LoadByUserIdAsync(Guid userId);
+        Task<List<OrderDto>> LoadAllAsync();
         Task<bool> InsertRecordAsync(OrderDto orderDto);
     }
 }
