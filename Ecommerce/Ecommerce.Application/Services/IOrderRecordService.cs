@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
-    public interface IOrderMongoService
+    public interface IOrderRecordService
     {
         public Task<bool> InsertRecord(OrderDto orderDto);
         public Task<List<OrderDto>> LoadAll();

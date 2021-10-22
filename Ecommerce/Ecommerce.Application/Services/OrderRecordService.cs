@@ -9,32 +9,32 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services
 {
-    public class OrderMongoService : IOrderMongoService
+    public class OrderRecordService : IOrderRecordService
     {
-        private readonly IMongoOrderRepository _repository;
+        private readonly IOrderRecordRepository _recordRepository;
 
-        public OrderMongoService(IMongoOrderRepository repository)
+        public OrderRecordService(IOrderRecordRepository recordRepository)
         {
-            _repository = repository;
+            _recordRepository = recordRepository;
         }
         public async Task<bool> InsertRecord(OrderDto orderDto)
         {
-            return await _repository.InsertRecordAsync(orderDto);            
+            return await _recordRepository.InsertRecordAsync(orderDto);            
         }
 
         public async Task<List<OrderDto>> LoadAll()
         {
-            return await _repository.GetAllAsync();
+            return await _recordRepository.LoadAllAsync();
         }
 
         public async Task<OrderDto> LoadByOrderId(Guid id)
         {
-            return await _repository.FindByIdAsync(id);
+            return await _recordRepository.LoadByIdAsync(id);
         }
 
         public async Task<List<OrderDto>> LoadByUserId(Guid userId)
         {
-            return await _repository.FindByUserIdAsync(userId);
+            return await _recordRepository.LoadByUserIdAsync(userId);
         }
     }
 }
